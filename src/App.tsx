@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import PCBuilder from './components/PCBuilder';
 import AdminPanel from './components/AdminPanel';
-import { Settings, Home } from 'lucide-react';
+import MonitorPage from './components/MonitorPage';
+import { Settings, Home, Activity } from 'lucide-react';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'builder' | 'admin'>('builder');
+  const [currentPage, setCurrentPage] = useState<'builder' | 'admin' | 'monitor'>('builder');
 
   return (
     <div className="min-h-screen">
@@ -30,6 +31,17 @@ function App() {
                 <span className="hidden sm:inline">Beranda</span>
               </button>
               <button
+                onClick={() => setCurrentPage('monitor')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  currentPage === 'monitor'
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                }`}
+              >
+                <Activity size={18} />
+                <span className="hidden sm:inline">Monitor</span>
+              </button>
+              <button
                 onClick={() => setCurrentPage('admin')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
                   currentPage === 'admin'
@@ -45,7 +57,7 @@ function App() {
         </div>
       </nav>
 
-      {currentPage === 'builder' ? <PCBuilder /> : <AdminPanel />}
+      {currentPage === 'builder' ? <PCBuilder /> : currentPage === 'monitor' ? <MonitorPage /> : <AdminPanel />}
     </div>
   );
 }
